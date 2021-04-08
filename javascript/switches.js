@@ -1,3 +1,4 @@
+// clean:
 function howManydays(month){
   switch (month){
      case 2: return 28
@@ -8,7 +9,7 @@ function howManydays(month){
   }
   return 31
 }
-
+// verbose below
 function howManydays(month){
   var days;
   switch (month) {
