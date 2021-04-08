@@ -17,3 +17,15 @@ function grabDoll(dolls) {
   return bag;
   
 }
+
+// another good one, but mine wasn't far off
+
+function grabDoll(dolls){
+  var bag=[];
+  for (d in dolls) {
+     if (dolls[d]=="Hello Kitty"||dolls[d]=="Barbie doll") bag.push(dolls[d]);
+     if (bag.length<3) continue;
+     break;
+  }
+  return bag;
+}
