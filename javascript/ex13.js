@@ -18,3 +18,16 @@ function whatNumberIsIt(n){
 } else { return "Input number is Number.NaN"}
   
   }
+
+// slicker, could still assign the first 3 words to a varible and then return that plus the result of the filter check
+
+function whatNumberIsIt(n){
+  switch(n){
+    case Number.MAX_VALUE: return ("Input number is Number.MAX_VALUE"); 
+    case Number.MIN_VALUE: return  ("Input number is Number.MIN_VALUE");
+    case Number.POSITIVE_INFINITY: return ("Input number is Number.POSITIVE_INFINITY");
+    case Number.NEGATIVE_INFINITY: return ("Input number is Number.NEGATIVE_INFINITY");
+    case Number(n) : return "Input number is " + n;
+  default: return "Input number is Number.NaN";
+  }
+}
