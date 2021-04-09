@@ -13,3 +13,7 @@ function findOdd(A) {
     }
   }
 };
+
+// this one crazy, apparently it's bitwise opperators aka XOR operators..
+
+const findOdd = (xs) => xs.reduce((a, b) => a ^ b);
