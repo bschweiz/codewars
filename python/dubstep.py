@@ -11,3 +11,14 @@ def song_decoder(song):
             final += [x]                 
     
     return ' '.join(final)
+
+# simpler/shorter
+
+def song_decoder(song):
+    return " ".join(song.replace('WUB', ' ').split())
+
+# regex solution:
+
+def song_decoder(song):
+    import re
+    return re.sub('(WUB)+', ' ', song).strip()
