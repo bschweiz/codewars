@@ -3,7 +3,7 @@
 
 def to_camel_case(text):
     print(text)
-    # your code here
+    
     a = "_"
     b = "-"
 
