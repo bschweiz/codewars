@@ -10,3 +10,8 @@ function friend(friends){
   return filteredFriends
 }
 
+// simpler:
+
+function friend(friends){
+  return friends.filter(n => n.length === 4)
+}
