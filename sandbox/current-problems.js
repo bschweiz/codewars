@@ -1,6 +1,8 @@
 waitUntil (args, util) {
         debugger
         console.log(args, 'args from waitUntil');
+        // why is args thought to be an object? and why TOIC in all caps?
+        //  is there a 'TOPIC' type created somewhere?
         const topic = args.TOPIC.split('/');
         const last = topic.length - 1;
         const action = topic[last];
