@@ -21,4 +21,8 @@ waitUntil (args, util) {
             return;
         }
     }
+
+
+// args needs to be the topic addreass aka heirarchy passed uniquely every 
+// time, not some dumb boolean set and then passed you HDP
     
