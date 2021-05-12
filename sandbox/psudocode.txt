@@ -1,0 +1,23 @@
+
+Sat 1: sat/BCCDVAN/ev/touch  1/0
+Sat 2: sat/BCCDBRUCE/ev/touch  1/0
+Sat 2: sat/BCCDBEN/ev/touch  1/0
+
+Hat block:  sat/BCCDVAN/ev/touch
+do stuff
+
+Hat block:  sat/BCCDBRUCE/ev/touch
+do other stuff
+
+Hat block: sat/+/ev/touch  = topic: sat/BCCDVAN/ev/touch payload: 1  / 0   /  topic: sat/BCCDBRUCE/ev/touch  payload: 1
+do general stuff
+
+reset thread
+
+sat/#
+sat/+/ev/touch 
+
+subscribe(sat/+/ev/touch)
+publish(sat/BCCDVAN/ev/touch, 1)
+receive(sat/BCCDVAN/ev/touch, 1)
+receive(sat/+/ev/touch, "sat/BCCDBRUCE/ev/touch", 1)
