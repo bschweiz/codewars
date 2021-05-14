@@ -57,3 +57,102 @@ emitWorkspaceUpdate() {
 
     this.emit('workspaceUpdate', { xml: xmlString });
 }
+
+// ** FROM scratch-vm/src/engine/target.js lines 257-277
+
+/**
+     * Creates a variable with the given id and name and adds it to the
+     * dictionary of variables.
+     * @param {string} id Id of variable
+     * @param {string} name Name of variable.
+     * @param {string} type Type of variable, '', 'broadcast_msg', or 'list'
+     * @param {boolean} isCloud Whether the variable to create has the isCloud flag set.
+     * Additional checks are made that the variable can be created as a cloud variable.
+     */
+ createVariable (id, name, type, isCloud) {
+    debugger
+    if (!this.variables.hasOwnProperty(id)) {
+        const newVariable = new Variable(id, name, type, false);
+        if (isCloud && this.isStage && this.runtime.canAddCloudVariable()) {
+            newVariable.isCloud = true;
+            this.runtime.addCloudVariable();
+            this.runtime.ioDevices.cloud.requestCreateVariable(newVariable);
+        }
+        this.variables[id] = newVariable;
+    }
+}
+
+
+
+// ** FROM scratch-vm/src/engine/variable.js lines (all)
+
+/**
+ * @fileoverview
+ * Object representing a Scratch variable.
+ */
+
+ const uid = require('../util/uid');
+ const xmlEscape = require('../util/xml-escape');
+ 
+ class Variable {
+     /**
+      * @param {string} id Id of the variable.
+      * @param {string} name Name of the variable.
+      * @param {string} type Type of the variable, one of '' or 'list'
+      * @param {boolean} isCloud Whether the variable is stored in the cloud.
+      * @constructor
+      */
+     constructor (id, name, type, isCloud) {
+         this.id = id || uid();
+         this.name = name;
+         this.type = type;
+         this.isCloud = isCloud;
+         switch (this.type) {
+         case Variable.SCALAR_TYPE:
+             this.value = 0;
+             break;
+         case Variable.LIST_TYPE:
+             this.value = [];
+             break;
+         case Variable.BROADCAST_MESSAGE_TYPE:
+             this.value = this.name;
+             break;
+         default:
+             throw new Error(`Invalid variable type: ${this.type}`);
+         }
+     }
+ 
+     toXML (isLocal) {
+         isLocal = (isLocal === true);
+         return `<variable type="${this.type}" id="${this.id}" islocal="${isLocal
+         }" iscloud="${this.isCloud}">${xmlEscape(this.name)}</variable>`;
+     }
+ 
+     /**
+      * Type representation for scalar variables.
+      * This is currently represented as ''
+      * for compatibility with blockly.
+      * @const {string}
+      */
+     static get SCALAR_TYPE () {
+         return '';
+     }
+ 
+     /**
+      * Type representation for list variables.
+      * @const {string}
+      */
+     static get LIST_TYPE () {
+         return 'list';
+     }
+ 
+     /**
+      * Type representation for list variables.
+      * @const {string}
+      */
+     static get BROADCAST_MESSAGE_TYPE () {
+         return 'broadcast_msg';
+     }
+ }
+ 
+ module.exports = Variable;
