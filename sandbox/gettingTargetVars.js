@@ -16,3 +16,15 @@ const stageVariables = this.runtime.getTargetForStage().variables;
     const stage = this.runtime.getTargetForStage();
 
 
+
+
+    broadcast (args, util) {
+        const broadcastVar = util.runtime.getTargetForStage().lookupBroadcastMsg(
+            args.BROADCAST_OPTION.id, args.BROADCAST_OPTION.name);
+        if (broadcastVar) {
+            const broadcastOption = broadcastVar.name;
+            util.startHats('event_whenbroadcastreceived', {
+                BROADCAST_OPTION: broadcastOption
+            });
+        }
+    }
