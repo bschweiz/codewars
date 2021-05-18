@@ -92,3 +92,48 @@ this._setupAliases = payload => {
 
 // now the solution across mqttControl.js and virtual-machine.js
 
+// src/engine/mqttControl.js
+
+static _satelliteStatusHandler (sender) {
+    // log.info(`satelliteStatusHandler fired for sender: ${sender}`);
+    satellites[sender] = {
+        isTouched: false,
+        hasPresence: false
+    };
+    this.runtime.emit('SET_SATELLITE_VARS', sender);
+    this.runtime.emit('SET_SATELLITES', satellites);
+}
+
+
+// src/virtual-machine.js
+
+createSatelliteVariables (data) {
+    const stage = this.runtime.getTargetForStage();
+    let allSats = stage.lookupVariableByNameAndType('All_Satellites', 'list');
+    let singleSat = stage.lookupVariableByNameAndType(`${data}`, '');
+    if (!allSats) {
+        allSats = this.workspace.createVariable(`All_Satellites`, 'list', false, false);
+    }
+    if (!singleSat) {
+        singleSat = this.workspace.createVariable(`${data}`, '', false, false);
+    }
+}
+
+// that above didn't really work how i thought it would, we now need the 'value' of each var
+// to be set to itself...
+
+// BELOW is the old playspot-dev-update version which returned just the first 
+
+createSatelliteVariables (data) {
+    const stage = this.runtime.getTargetForStage();
+    let singleSat = stage.lookupVariableByNameAndType(`${data}`, '');
+    let allSats = stage.lookupVariableByNameAndType('All_Satellites', 'list');
+    if (!allSats) {
+        allSats = this.workspace.createVariable(`All_Satellites`, 'list', false, false);
+        singleSat = this.workspace.createVariable(`${data}`, '', false, false);
+    }
+    setTimeout(() => {
+        stage.variables[allSats.id_].value = Object.keys(this.satellites);
+        stage.variables[singleSat.id_].value = `${data}`;
+    }, 5000);
+}
