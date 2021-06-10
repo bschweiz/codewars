@@ -34,3 +34,28 @@ Blockly.Blocks['messages_assignTopicToMessage'] = {
       });
     }
   };
+
+  // attempted rename, not working in GUI
+
+  this.reassignSatIdTouchRadarValueVars = (varName, stage, t) => {
+    debugger
+    let thisSatValueVar = {};
+    if (t[3] === 'touch') {
+        thisSatValueVar = stage.lookupVariableByNameAndType(`${t[1]}_TOUCH_VALUE`, '');
+        if (this.workspace.renameVariable) {
+            // BLOCKY.WORKSPACE METHOD: renameVariable(workspace, variable, opt_callback) ? not working
+            thisSatValueVar = this.workspace.renameVariable(this.workspace, thisSatValueVar, `${varName} Value`);
+        } else {
+            stage.renameVariable(thisSatValueVar.id, `${varName} Value`);
+        }
+    } else if (t[3] === 'radar') {
+        thisSatValueVar = stage.lookupVariableByNameAndType(`${t[1]}_RADAR_VALUE`, '');
+        if (this.workspace.createVariable) {
+            // BLOCKY.WORKSPACE METHOD: renameVariable(workspace, variable, opt_callback) ? not working
+            thisSatValueVar = this.workspace.renameVariable(this.workspace, thisSatValueVar, `${varName} Value`);
+        } else {
+            stage.renameVariable(thisSatValueVar.id, `${varName} Value`);
+        }
+    }
+    return thisSatValueVar;
+};
